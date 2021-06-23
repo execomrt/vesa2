@@ -1,0 +1,42 @@
+#/************************************************************************
+# *
+# *     File        : MAKEFILE.
+# *
+# *     Description : Makefile for Vesa2.00
+# *
+# *     Copyright (C) 1995 RealTech
+# *
+# ************************************************************************/
+
+
+.EXTENSIONS:
+.EXTENSIONS: .exe .obj .cpp .c .asm
+.BEFORE
+	@set INCLUDE=.;$(%watcom)\h;$(%watcom)\h\win;
+
+CC            = wcc386.exe
+CASM          = wasm
+wcc_options   = /mf /d0 /wx /Oneatx /4
+tasm_options  = -d1 -mf -4r
+wlink_options = debug All
+
+object_files = _dpmi.obj _vesa2.obj testvesa.obj vesatst.obj
+
+
+PROJET       = vesa2
+Exe_file     = $(PROJET).exe
+
+
+.asm.obj:
+
+	$(CASM) $[* $(tasm_options)
+
+.c.obj:
+	$(CC) $[* $(wcc_options)
+
+
+$(Exe_file): $(object_files)
+	wlink $(wlink_options) @$(PROJET).lnk
+
+
+
