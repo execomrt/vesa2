@@ -1,0 +1,52 @@
+RTVBE History
+----------------------------------------------------------------------------
+
+ v3.0 Final version.
+       * Completly rewritten. More robust, more simplier, more easier to implements.
+       * HTML documentation.
+       * Removed uvbelib (you don't need it anymore).
+       * Added structure informations for VBE 3.0
+
+ v2.13 Maintenance version.
+       * Page flip test example
+       * Some functions name has changed
+       * More comments.
+       * Tested with Watcom 11
+
+ v2.11 Major update ( DJGPP )
+       When looking for a 16bit, you must know that the VESA driver may returns
+       a 15bit instead: This is fixed (another Matrox bug (even Direct Draw
+       is fooled :))
+       Added PM Management function.
+
+ v2.10 Christmas Release.
+       Bug fixed version.
+       New initialization.
+       Directories and .Lib.
+       GIFT! : With Uvbelib (no need to install univbe 5.2 in memory)
+       Include Uvbelib.lib 5.2  : copy you univbe.drv in this path for using
+       the build in univbe :)
+ 
+ v2.02 Optimized Julia rendering + timer (4230 ms on 486DX4/120-Tseng4000W32)
+ 
+ v2.01 Fixed the scanline function. Set the right scanline length
+       (on Matrox Millenium 800x600x8 has a 960 pixel scanline length 
+        instead of 800 !. So it fix it)
+
+ v2.00 - Compatibility with DJGPP v2.00 (*nearly* all DPMI functions has been
+       rewritten)
+       - Clearer code
+       New email : stedenis@worldnet.fr
+
+       *** No more base selector ***
+       
+       You can write and read without specificing remapped selector.
+       Use the address given in VESA.Map
+
+       It improves speed on Pentium (1 cycle was previously lost 
+       for 16bit overriding), And code size (1 byte :)
+
+ v1.05 Fixed some bugs in initialization mode. You should use DOS4GW v1.95
+       at least (some DPMI functions doesn't exists above)
+ 
+ v1.00 First version

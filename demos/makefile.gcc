@@ -1,0 +1,28 @@
+# ************************************************************************
+# *
+# *     File        : MAKEFILE.GCC
+# *
+# *     Description : Makefile for VESA 2.0 TEST
+# *                                        
+# *     Copyright (C) 1996 RealTech
+# *
+# ************************************************************************
+
+INCLUDES = ../include
+CC = gcc
+LD = gcc
+CFLAGS = -O2 -g -Wall -D_GNU__ -I$(INCLUDES)
+LIBS = ../lib/vbelib.a 
+
+all: ../demo0.exe ../demo1.exe ../demo2.exe
+
+../demo0.exe: demo0.o
+        $(LD) -o $@ $(OBJS) $(LIBS) $(LDFLAGS)
+
+../demo1.exe: demo1.o
+        $(LD) -o $@ $(OBJS) $(LIBS) $(LDFLAGS)
+
+../demo2.exe: demo2.o
+        $(LD) -o $@ $(OBJS) $(LIBS) $(LDFLAGS)
+
+

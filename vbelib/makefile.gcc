@@ -1,0 +1,24 @@
+#;/************************************************************************
+#;*
+#;*     File        :   MAKEFILE.GCC
+#;*
+#;*     Description :   Makefile for VESA 2.00 Lib (DJGPP)
+#;*
+#;*     Copyright (C) 1994,97 Realtech
+#;*
+#;***********************************************************************/
+
+LIBTARGET = ../lib/vbelib.a
+
+CC = gcc
+LD = ld
+CFLAGS = -O2 -D_GNU__ -I../include
+LDFLAGS = -L. -lm
+
+OBJECTS = vbecore.o dpmi.o
+
+all: $(LIBTARGET)
+
+$(LIBTARGET): $(OBJECTS)
+        ar -r $@ $(OBJECTS)
+

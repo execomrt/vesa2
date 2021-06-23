@@ -1,0 +1,139 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>VBE 2.0/3.0 Core Library</title>
+</head>
+
+<body>
+
+<div align="left">
+  <table border="0" width="100%" height="28" bgcolor="#98CCFF" bordercolor="#FFFFFF">
+    <tr>
+      <td width="584" height="28"><font face="Arial"><i>REALTECH VBE 2.0 CORE Library&nbsp;</i></font></td>
+    </tr>
+  </table>
+</div>
+<h3><i><font face="Arial">VBE 2.00 Library Reference</font></i></h3>
+<h3>INITIALIZATIONS FUNCTIONS</h3>
+<p><font face="Arial"><i>Prototype </i>: VBE_RESULT <b>VBE_Initialize</b>();&nbsp;<br>
+<i>
+Description</i> : Initialize VBE engine. You should call <b>RM_Initialize</b>()
+before. Success if returns VBEERR_NOERR.</font></p>
+<p><font face="Arial"><i>Prototype</i>:
+    void <b>VBE_Release</b>();&nbsp;<br>
+<i>Description</i>: Release VBE engine. Notes that it doesn't release RM
+Manager.</font>
+</p>
+<p><font face="Arial"><i>Prototype</i>: const char * <b>VBE_GetStringErr</b>(VBE_RESULT
+err);&nbsp;<br>
+<i>Description</i>: Convert a error code to english message string.</font>
+</p>
+<p><font face="Arial"><i>Prototype</i>: VBE_MODE <b>VBE_FindDisplayMode</b>(int width,
+into height, int bitsPerPixel);&nbsp;<br>
+<i>Description</i>: Find a desired display mode according criteria
+(width, height and screen depth).&nbsp; if returns 0, then there is no video
+modes that match criteria.<br>
+<br>
+<i>Prototype</i>: VBE_RESULT <b>VBE_SetDisplayMode</b>(VBE_MODE mode);&nbsp;<br>
+<i>Description</i>: Set desired display mode. Success if returns
+VBEERR_NOERR.&nbsp;</font>
+</p>
+<p><font face="Arial"><i>Prototype</i> : int <b>VBE_EnumDisplayModes</b>(VBE_ENUMDISPLAYCALLBACK callback, void *context);&nbsp;<br>
+<i>Description</i>: Enumerate all display modes. Each
+valid, video modes a call to<callback> with a custom parameter is called.&nbsp;<br>
+<font size="1"><i>
+VBE_ENUMDISPLAYCALLBACK function syntax is callback(const VBE_ModeInfoBlock *info, VBE_MODE mode, void *context)</i></font></font></p>
+
+<p><font face="Arial">
+    <i>Prototype</i> : void<b> VGA_SetDisplayMode</b>(int vgamode);&nbsp;<br>
+    <i>Description</i>: Set VGA mode thru INT10h. For example, passing 0x3 as
+parameter, set video mode to 80x25 text mode, passing 0x13 set video to
+320x200x256 colors.<br>
+Always successful.</font>
+</p>
+
+<h3><br>
+FRAME BUFFER FEATURES</h3>
+
+<p><font face="Arial"><i>Prototype</i> :
+    void    CALLING_C <b>VBE_Flip</b>(void);&nbsp;<br>
+<i>Description</i>: Flip backbuffer / front buffer. Call this function when
+flipping between front and back buffer</font></p>
+
+<p><font face="Arial">
+    <i>Prototype</i> :
+uchar* <b>VBE_LockSurface</b>(void);&nbsp;<br>
+    <i>Description</i>: Return the current frame buffer video address (where you can
+read/write).&nbsp;<br>
+    It's return the back buffer which is the buffer that it is no visible until
+    you do a VBE_Flip() call.</font></p>
+
+<p><font face="Arial"><i>Prototype</i>: void <b>VBE_UnlockSurface</b>(void);<br>
+<i>Description</i>:&nbsp; Not really required to unlock the surface (invalid current display video
+pointer), but it is good to have this policy of Locking/Unlocking surface which
+is used in some others OS.</font></p>
+
+<p><font face="Arial">
+<i>Prototype</i> :
+    VBE_RESULT <b>VBE_SetScanlineLength</b>(long new_length);&nbsp;<br>
+<i>Description</i>: Set the scanline
+length. Useful for horizontal scrolling .&nbsp;For example, settings a
+ScanlineLength to 1024 in 640x480 display mode enables you to scroll
+horizontally with VBE_SetDisplayOffset.</font></p>
+<p><font face="Arial">
+    <i>Prototype</i> :
+    VBE_RESULT <b>VBE_SetDisplayOffset</b>(long x,long y);&nbsp;<br>
+    <i>Description</i>: Set scrolling position. Useful for horizontal/vertical scrolling.
+x and y are absolute screen offset to apply.</font>
+</p>
+
+<p><font face="Arial">There is an extended LockSurface function for advanced
+users</font>
+</p>
+
+<p><font face="Arial">
+    <i>Prototype</i> : void <b>VBE_LockSurfaceAlt</b>(uchar **front, uchar
+**back, long *pitch);&nbsp;<br>
+    <i>Description</i>: fill front buffer address, back buffer address, and
+pitch (number of pixels per lines). Useful if you want to write directly on the
+visible page (front page). Width VESA 2.0, the write on front buffer is guaranteed
+    to be same as the back buffer.</font></p>
+
+<h3>8BIT-MODE SPECIAL FEATURES</h3>
+
+<p><font face="Arial"><i>Prototype</i> : VBE_RESULT <b>VBE_SetDac(</b>VBEDACMODE mode);&nbsp;<br>
+<i>Description</i>: Set VGA 8bit DAC precision (6bit or 8bit). This only
+meaningful in 256 colors modes.</font></p>
+
+<p>
+    <font face="Arial">
+    <i>Prototype</i> :
+    VBE_RESULT <b>VBE_GetPalette</b>(int start, int numEntries, void *pal);&nbsp;<br>
+    <i>Description</i>:&nbsp; Get current 8bit palette. Only in 8bit display modes. start : first color entry (0), numEntries : number of
+    colors (256), pal
+(buffer of <numEntries> RGB values (3 x unsigned char)</font></p>
+
+<p><font face="Arial"><i>Prototype </i>:&nbsp; void <b>VBE_SetPalette</b>(ulong start, ulong numEntries, const void * pal);&nbsp;<br>
+<i>Description</i>:&nbsp; Set 8bit palette. Only in 8bit display modes.</font></p>
+
+<h3>&nbsp;</h3>
+<h3>ADVANCED FEATURES.</h3>
+
+<p>
+    <font face="Arial">
+    Prototype :&nbsp; void <b>VBE_SetBank</b>(int bank);&nbsp;<br>
+    <i>Description</i>: Change video bank (just given if you want to manage VESA 1.2).&nbsp;</font></p>
+
+<p>© 1995-1999 realtech VR. All rights reserved.</p>
+<p>Microsoft, MS-DOS is a registered trademarks or trademarks of Microsoft
+Corporation in the United States and/or other countries<br>
+VESA is a registered trademark or trademark of VESA Org. in the United States
+and/or other countries</p>
+
+</body>
+
+</html>
