@@ -1,93 +1,104 @@
+# VESA 3.00 Programming Development Kit (v3.0)
 
+**Developed by Execom of Realtech**
+📧 `execom@www.scene.org`
+🌐 [http://www.realtech.scene.org](http://www.realtech.scene.org)
 
+---
 
+## 📘 Introduction
 
+This SDK provides support for **VESA 2.0/3.0** video programming under DOS, enabling high-performance graphics with **linear frame buffer (LFB)** access and **bank-free video memory usage**.
 
+> For detailed specifications on VESA standards, visit [http://www.vesa.org](http://www.vesa.org)
 
-   VESA 3.00 Programming Developpement Kit v3.0
-   Coding by Execom of Realtech  (execom@www.scene.org)
-   http://www.realtech.scene.org
+### ✨ Features
 
+* Direct video access under DOS with no bank switching.
+* Designed for **32-bit compilers** (not 16-bit).
+* Works with **DOS extenders** like:
 
+  * **DOS/4GW 1.95+**
+  * **Watcom C/C++ 10.6/11**
+  * **DJGPP v2**
+* Includes a **safe LFB allocation/deallocation** system with memory protection.
+* C++ wrapper available.
+* Separate **DPMI service layer**, DJGPP-compatible, allows simulating real-mode interrupts (e.g., CD-ROM support via MSCDEX).
+* Partial compatibility with **VESA 1.2** (bank switching support).
+* Handles common quirks in video card drivers automatically (e.g., incorrect mode reporting).
 
+### ✅ Tested Video Cards
 
+* Matrox Millennium
+* Chips 65550
+* S3 Trio64/64V+, Virge, 968
+* ET4000/W32p
+* ATI Rage Pro, Rage 128
+* NVIDIA GeForce
+* Many others...
 
+**Note:** Compatible with Windows 9x (not Windows NT).
+⚠️ Some drivers may fail to restore correct video modes when returning to Windows — use in pure DOS when possible.
 
+### ⚙ Driver Quirks Handled
 
+* **15-bit mode = 16-bit mode** (Matrox)
+* **800×600 mode = 960-byte scanline** (Matrox)
 
+---
 
+## 🛠 Compiling
 
+**Important:** The archive contains subdirectories.
 
-a) Introduction 
+### Supported Compilers
 
-     For more informations about VESA 2.0 go to http://www.vesa.org
+* **Watcom C/C++ 10+**
 
-     VESA 2.00 enable you to work directly in video under DOS without any slowing banks switching (due to 16bit compatibility)
+  * Rename `makefile.wat` → `makefile`
+* **DJGPP v2+**
 
-     It's running on most DOS extender (DOS4/GW 1.95 or later, earlier version won't recognize some DPMI functions and 32 bit compiler like Watcom 10.6 or 11, and DJGPP v2.). It wasn't designed for 16bit compiler.
+  * Rename `makefile.gcc` → `makefile`
 
-     This library has been tested on most of configurations :
+### Directory Structure
 
-      - Matrox Millenium.
-      - Chips 65550.      
-      - S3 Virge.
-      - S3 Trio 64/64V+.
-      - S3 968.
-      - ET4000/W32p.
-      - ATI Rage Pro
-      - ATI Rage 128
-      - NVidia GeForce
+```
+/VBELIB   → VBE Core library source and RM DPMI manager
+/DEMOS    → Demo programs
+/LIB      → Compiled VBE Core library
+/INCLUDE  → Header files
+```
 
-     And many others. It's compatible with Windows 9x (not NT) 
+---
 
-     On some videos card, under Windows, the display driver failed to restore the correct monitor
-     frequencies, so you may returns into Windows with black screen or scrambled. It's due to a bug
-     on theses drivers. In that case, please runs exclusivly under DOS.
+## 🚀 Demos
 
-     On Matrox videos card, "15bit modes are 16bits(1)" and "800x600 is 960 pixels columns(2)"
-     bugs are automatically fixed by the API.
+1. **`demo0.exe`**
+   Detects VBE support and lists available video modes.
+   ⚠️ Some cards may list duplicate modes — ensure uniqueness in your mode list.
 
-     (1) When you ask a 15bit mode, it returns a 16bit modes
-     (2) When setting 800x600 mode, the scanline length is 960 instead of 800
+2. **`demo1.exe`**
+   LFB write test in **640×480×16-bit** mode using a **Julia fractal**.
+   Uses `VBE_LockSurfaceAlt` to access the front buffer.
 
-     A very safe LFB allocating AND deallocating for stability and memory guard prevents.
-   
-     There is also a C++ wrapper for C++ programmers.
+3. **`demo2.exe`**
+   Page flipping and back buffer test using basic line drawing.
 
-     A separated DPMI Service interface, DJGPP compatible, enables you to simulate real mode interrupts under Dos/4g or DJGPP easily (like CDROM/Mscdex), and additional services are also given(memory available, CPU informations etc...)
+---
 
-     This is a compatibility with VESA 1.2. There is some functions that can help you to change banks (I suggest then to work in RAM, then copying 64Kb by 64Kb and changing bank each time).
+## 📄 License & Credits
 
-    About VBE 2.1 (or VESA 3.00 extensions), there is some features that are not really taken advantage
-here (due some buggy implementations on some video cards).
+This SDK is **free to use**, but **do not modify the package contents**.
+If you use this in your own projects, **credits are appreciated**.
 
-b) Compiling
+While clones of this SDK have surfaced, this was the **first SDK dedicated to VESA 2.0**.
 
-  
-   Warning : The archive contains subdirectories.
+For questions, contact: `realtech@www.scene.org`
 
-   If you have Watcom 10 or later, rename makefile.wat as makefile and compile.
-   If you have Djgpp v2 or later, rename makefile.gcc as makefile and compile.
+---
 
-   /VBELIB : contains VBE Core Library sources files and RM DPMI manager
-   /DEMOS : contains demos
-   /LIB : VBE Core lib
-   /INCLUDE : includes files
+**End of File**
 
-   There is 3 demos
+---
 
-   demo0.exe : VBE detection and enumerate all display modes. Notes that you can have several times the
-   same video modes on some video card (if you generate a list, you must check the 'unicity' of the       display mode).
-
-   demo1.exe : LFB writing test. The program set into 640x480x16 bits full screen, linear frame buffer
-   and draw a Julia Fractal. Also use VBE_LockSurfaceAlt to get the front buffer.
-
-   demo2.exe : Page Flipping test and back buffer writing. The program draw some lines using page flip mode.
-
-
-c) Copyright
-
-    This SDK is free, but you mustn't change anything in this package! Some Credits is welcome if you're     using in your program. This SDK was cloned in some version, but heh, it doesn't matter, this SDK will be the first for VESA 2.0.
-    You can mail for more information at realtech@www.scene.org about it.
-
-* END OF FILE
+Would you like me to modernize this even further, such as adding GitHub-specific enhancements (e.g., usage instructions, badges, build steps, CI suggestions)?
